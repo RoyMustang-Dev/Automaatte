@@ -7,6 +7,10 @@ WEBHOOK_URL = "https://hook.eu2.make.com/6it1v4q73it8nwoncysmiw1qpf48pe4h"
 # Set up the page configuration for wide layout
 st.set_page_config(page_title="Automaatte", page_icon="🌐", layout="wide")
 
+# CSS styles file
+with open("main.css") as f:
+    st.write(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
 # Custom CSS to override Streamlit's default padding and margins for full-width layout
 st.markdown(
     """
@@ -15,6 +19,9 @@ st.markdown(
         .block-container {
             padding-left: 0;
             padding-right: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin-top:-50px;
         }
 
         /* Optional: to remove the default margin at the top */
@@ -100,36 +107,26 @@ st.markdown("""
         height: 100vh;
         overflow: hidden;
     }
-    .spline-button {
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 10px 20px;
-        background-color: #ff007f; /* Adjust this color based on your Spline theme */
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-    .spline-button:hover {
-        background-color: #ff0050; /* Darker shade on hover */
-    }
 </style>
 """, unsafe_allow_html=True)
 
 # Embed Spline using iframe
 st.markdown("""
 <div class="spline-container">
-    <iframe src='https://my.spline.design/retrofuturisticcircuitloop-914165727b31cb5b8d721987989c091d/' frameborder='0' width='100%' height='100%'></iframe>
-    <h1 style="position:absolute; top:20%; left:50%; transform:translate(-50%, -50%); color:white;">Automaatte</h1>
+    <iframe src='https://my.spline.design/cybernetwork-ace4bd63302a1ed48cb50826fa110d63/' frameborder='0' width='100%' height='100%'></iframe>
+    <h1 style="position:absolute; top:100px; left:225px; transform:translate(-50%, -50%); color:white; text-align: center;font-size:4rem;">Automaatte</h1>
+    <h5 style="position:absolute; top:150px; left:240px; transform:translate(-50%, -50%); color:white; text-align: center;font-size:2rem;">Transforming Tomorrow, Today</h5>
+    <p style="position:absolute; top:320px; left:300px; transform:translate(-50%, -50%); color:white; text-align: left; font-size:1.1rem;">
+            Welcome to Automaatte, where AI meets ambition to turn today's<br>ideas into tomorrow's achievements. We offer a suite 
+            of intelligent, automated<br> Planning and Research solutions designed to streamline and elevate your<br> personal and 
+            business endeavors across various industries. <br><br>With Automaatte, time-consuming tasks become a breeze, letting you 
+            focus<br> on what truly matters while we handle the details.</p>
 </div>
 <div id="content" style="display:none;">
-""", unsafe_allow_html=True)
+""",unsafe_allow_html=True)
 
 # Show content based on button click
-if st.button("Explore", key="explore_button"):
+if st.button("Explore", key="explore_button", icon=":material/expand_circle_down:"):
     st.session_state.show_content = True
 
 if st.session_state.show_content:

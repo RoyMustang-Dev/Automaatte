@@ -5,7 +5,7 @@ import requests
 WEBHOOK_URL = "https://hook.eu2.make.com/6it1v4q73it8nwoncysmiw1qpf48pe4h"
 
 # Set up the page configuration for wide layout
-st.set_page_config(page_title="Automaatte", page_icon="🌐", layout="wide")
+st.set_page_config(page_title="Automaatte: Transform Tomorrow, Today!!", page_icon="favicon.ico", layout="wide")
 
 # CSS styles file
 with open("main.css") as f:

@@ -1,5 +1,7 @@
 import streamlit as st
 import requests
+import re
+from streamlit_option_menu import option_menu
 
 # Webhook URL from your Make scenario
 WEBHOOK_URL = "https://hook.eu2.make.com/6it1v4q73it8nwoncysmiw1qpf48pe4h"
@@ -19,9 +21,9 @@ st.markdown(
         .block-container {
             padding-left: 0;
             padding-right: 0;
-            padding-top: 0;
+            padding-top: 0px;
             padding-bottom: 0;
-            margin-top:-50px;
+            margin-top: 0px;
         }
 
         /* Optional: to remove the default margin at the top */
@@ -32,13 +34,14 @@ st.markdown(
         /* Adjust iframe and other components to take full width */
         iframe {
             width: 100%;
-            height: 100%;
+            
         }
 
         /* Ensure the content inside the divs is stretched to fit the width */
         .spline-container {
             width: 100%;
             height: 100vh;
+            padding-top: -10px;
         }
     </style>
     """,
@@ -46,6 +49,7 @@ st.markdown(
 )
 
 # Function to fetch country names dynamically from the REST Countries API
+@st.cache_data
 def fetch_countries():
     try:
         response = requests.get("https://restcountries.com/v3.1/all")
@@ -57,6 +61,7 @@ def fetch_countries():
         return []
 
 # Function to fetch states for a given country
+@st.cache_data
 def fetch_states(country_name):
     try:
         response = requests.post(
@@ -75,6 +80,7 @@ def fetch_states(country_name):
         return []
 
 # Function to fetch cities for a given state
+@st.cache_data
 def fetch_cities(country_name, state_name):
     try:
         response = requests.post(
@@ -92,8 +98,24 @@ def fetch_cities(country_name, state_name):
         st.error(f"Failed to fetch cities for {state_name}: {e}")
         return []
 
+# Function to validate email
+def is_valid_email(email):
+    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return re.match(pattern, email)
+
 # Fetch countries
 COUNTRIES = fetch_countries()
+
+option_menu(None, ["Home", "Upload",  "Tasks", 'Settings'], 
+    icons=['house', 'cloud-upload', "list-task", 'gear'], 
+    menu_icon="cast", default_index=0, orientation="horizontal",
+    styles={
+        "container": {"padding": "-1000px!important", "background": "transparent"},
+        "icon": {"color": "orange", "font-size": "25px"}, 
+        "nav-link": {"font-size": "25px", "text-align": "left", "margin-top":"0px", "--hover-color": "rgb(21 41 60)"},
+        "nav-link-selected": {"background-color": "green"},
+    }
+)
 
 # Initialize session state for showing content
 if 'show_content' not in st.session_state:
@@ -165,7 +187,7 @@ if st.session_state.show_content:
     specific_place = st.text_input("Specific Place", placeholder="Enter a specific place or landmark")
 
     # Button to trigger the scenario
-    if st.button("Send Data to Make"):
+    if st.button("Generate Planning"):
         if country == "Select a Country":
             st.error("Please select a valid country!")
         elif state == "Select a State":
@@ -185,10 +207,27 @@ if st.session_state.show_content:
                 response = requests.post(WEBHOOK_URL, json=payload)
                 if response.status_code == 200:
                     try:
-                        st.success("Data successfully compiled!")
-                        st.markdown("#### Generated Itinerary:")
+                        st.success("Plan successfully compiled!")
+                        st.markdown("## Generated Plan:")
                         response_content = response.text
-                        st.write("Response Content:\n", response_content)
+                        st.markdown("""
+                                    <style>
+                                        .response-content {
+                                            background-color: rgb(14 17 23);
+                                            padding: 20px;
+                                            border-radius: 8px;
+                                            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                                        }
+                                    </style>
+                                    """, unsafe_allow_html=True)
+
+                                    # Applying the CSS class to the response content
+                        st.markdown(f"""
+                                    <div class="response-content">
+                                        <pre>{response_content}</pre>
+                                    </div>
+                                    """, unsafe_allow_html=True)
+
                     except Exception as parse_error:
                         st.error(f"Failed to parse response: {parse_error}")
                 else:

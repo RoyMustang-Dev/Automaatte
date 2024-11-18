@@ -29,6 +29,7 @@ st.markdown(
         /* Optional: to remove the default margin at the top */
         .main {
             padding-top: 0;
+            
         }
 
         /* Adjust iframe and other components to take full width */
@@ -106,65 +107,57 @@ def is_valid_email(email):
 # Fetch countries
 COUNTRIES = fetch_countries()
 
-option_menu(None, ["Home", "Upload",  "Tasks", 'Settings'], 
+selected = option_menu(None, ["Home", "Services", "AI Researchers",  "AI Planners", "AI Free Services", "About Us", "Contact Us"], 
     icons=['house', 'cloud-upload', "list-task", 'gear'], 
-    menu_icon="cast", default_index=0, orientation="horizontal",
+    default_index=0, orientation="horizontal",
     styles={
-        "container": {"padding": "-1000px!important", "background": "transparent"},
+        "container": {"padding": "0!important", "background": "rgb(15 16 17)"},
         "icon": {"color": "orange", "font-size": "25px"}, 
-        "nav-link": {"font-size": "25px", "text-align": "left", "margin-top":"0px", "--hover-color": "rgb(21 41 60)"},
-        "nav-link-selected": {"background-color": "green"},
+        "nav-link": {"width": "100%", "font-size": "25px", "text-align": "left", "margin-top":"0px", "--hover-color": "rgb(21 41 60)"},
+        "nav-link-selected": {"background-color": "rgb(21 41 60)"},
     }
 )
+if selected == "Home":
+    # Title and description with Spline background
+    st.markdown("""
+    <style>
+        .spline-container {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+    </style>
+    """, unsafe_allow_html=True)
 
-# Initialize session state for showing content
-if 'show_content' not in st.session_state:
-    st.session_state.show_content = False
+    # Embed Spline using iframe
+    st.markdown("""
+    <div class="spline-container">
+        <iframe src='https://my.spline.design/cybernetwork-ace4bd63302a1ed48cb50826fa110d63/' frameborder='0' width='100%' height='100%'></iframe>
+        <h1 style="position:absolute; top:100px; left:225px; transform:translate(-50%, -50%); color:white; text-align: center;font-size:4rem;">Automaatte</h1>
+        <h5 style="position:absolute; top:150px; left:240px; transform:translate(-50%, -50%); color:white; text-align: center;font-size:2rem;">Transforming Tomorrow, Today</h5>
+        <p style="position:absolute; top:320px; left:300px; transform:translate(-50%, -50%); color:white; text-align: left; font-size:1.1rem;">
+                Welcome to Automaatte, where AI meets ambition to turn today's<br>ideas into tomorrow's achievements. We offer a suite 
+                of intelligent, automated<br> Planning and Research solutions designed to streamline and elevate your<br> personal and 
+                business endeavors across various industries. <br><br>With Automaatte, time-consuming tasks become a breeze, letting you 
+                focus<br> on what truly matters while we handle the details.</p>
+    </div>
+    <div id="content" style="display:none;">
+    """,unsafe_allow_html=True)
 
-# Title and description with Spline background
-st.markdown("""
-<style>
-    .spline-container {
-        position: relative;
-        height: 100vh;
-        overflow: hidden;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# Embed Spline using iframe
-st.markdown("""
-<div class="spline-container">
-    <iframe src='https://my.spline.design/cybernetwork-ace4bd63302a1ed48cb50826fa110d63/' frameborder='0' width='100%' height='100%'></iframe>
-    <h1 style="position:absolute; top:100px; left:225px; transform:translate(-50%, -50%); color:white; text-align: center;font-size:4rem;">Automaatte</h1>
-    <h5 style="position:absolute; top:150px; left:240px; transform:translate(-50%, -50%); color:white; text-align: center;font-size:2rem;">Transforming Tomorrow, Today</h5>
-    <p style="position:absolute; top:320px; left:300px; transform:translate(-50%, -50%); color:white; text-align: left; font-size:1.1rem;">
-            Welcome to Automaatte, where AI meets ambition to turn today's<br>ideas into tomorrow's achievements. We offer a suite 
-            of intelligent, automated<br> Planning and Research solutions designed to streamline and elevate your<br> personal and 
-            business endeavors across various industries. <br><br>With Automaatte, time-consuming tasks become a breeze, letting you 
-            focus<br> on what truly matters while we handle the details.</p>
-</div>
-<div id="content" style="display:none;">
-""",unsafe_allow_html=True)
-
-# Show content based on button click
-if st.button("Explore", key="explore_button", icon=":material/expand_circle_down:"):
-    st.session_state.show_content = True
-
-if st.session_state.show_content:
-    st.markdown("</div> <!-- Close content div -->", unsafe_allow_html=True)
-    
+if selected == "Services":    
     # Core Services (initially hidden)
     st.markdown("### Core Services")
     st.markdown("""
-    - **AI Researchers**:
-        - Personalized vacation itineraries for individuals and corporate retreats.
-        - Let us handle the details so you can focus on what truly matters.
-    """)
+        - **AI Researchers**:
+            - Personalized vacation itineraries for individuals and corporate retreats.
+            - Let us handle the details so you can focus on what truly matters.
+        """)
 
+if selected == "AI Researchers":
     # Input Form
     st.markdown("---")
     st.markdown("### Vacation Researcher Form")
+    st.write("Vacation Planning: Personalized itineraries for individual travelers and corporate retreats in the Tourism industry.")
 
     # Country selection with placeholder
     country = st.selectbox("Country", options=["Select a Country"] + COUNTRIES, index=0)
@@ -207,13 +200,13 @@ if st.session_state.show_content:
                 response = requests.post(WEBHOOK_URL, json=payload)
                 if response.status_code == 200:
                     try:
-                        st.success("Plan successfully compiled!")
-                        st.markdown("## Generated Plan:")
+                        st.success("Research Done!!")
+                        st.markdown("## Researched Items:")
                         response_content = response.text
                         st.markdown("""
                                     <style>
                                         .response-content {
-                                            background-color: rgb(14 17 23);
+                                            background-color: rgb(15 16 17);
                                             padding: 20px;
                                             border-radius: 8px;
                                             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -234,7 +227,18 @@ if st.session_state.show_content:
                     st.error(f"Failed to send data. Status code: {response.status_code}")
             except Exception as e:
                 st.error(f"An error occurred: {e}")
-
+    # Input Form
+    st.markdown("---")
+    st.markdown("### Vacation Researcher Form")
+    # Input Form
+    st.markdown("---")
+    st.markdown("### Vacation Researcher Form")
+    # Input Form
+    st.markdown("---")
+    st.markdown("### Vacation Researcher Form")
+    # Input Form
+    st.markdown("---")
+    st.markdown("### Vacation Researcher Form")
 # Footer
 st.markdown("---")
 st.markdown("*Powered by Automaatte*")

@@ -278,7 +278,7 @@ if selected == "AI Researchers":
     LEARNING_MODE = ["Select a Mode", "Online", "Offline", "Hybrid"]
     # Country selection with placeholder
     # Level selection
-    level = st.selectbox("Select Education Level", options=LEVELS)
+    level = st.selectbox("Select the Education Level you want to Research about", options=LEVELS)
 
     if level == "Select a Level":
         st.write("Please select a valid level to proceed.")
@@ -297,37 +297,31 @@ if selected == "AI Researchers":
         # Dynamically fetch and display states based on selected country
         if country_main == "India":
             indian_states = fetch_states(country_main)
-            istate = st.selectbox("State", options=["Select a State"] + indian_states)
+            istate = st.selectbox("State in which you want to Pursue the Education", options=["Select a State"] + indian_states)
         else:
-            istate = st.selectbox("State", options=["Select a State"])
+            istate = st.selectbox("State in which you want to Pursue the Education", options=["Select a State"])
 
         # Dynamically fetch and display cities based on selected state
         if istate != "Select a State":
             indian_cities = fetch_cities(country_main, istate)
-            icity = st.selectbox("City", options=["Select a City"] + indian_cities)
+            icity = st.selectbox("Prefered City in which you want to Pursue the Education", options=["Select a City"] + indian_cities)
 
-        mode = st.selectbox("Mode", options= LEARNING_MODE)
+        mode = st.selectbox("Mode of Education", options= LEARNING_MODE)
         if mode == "Select a Mode":
             st.write("Please select a valid mode to proceed.")
 
         # Dynamic field: Interests & Hobbies
-        interests_hobbies = st.text_area("Interests & Hobbies", placeholder="Describe your interests and hobbies here")
+        interests_hobbies = st.text_area("Your Interests & Hobbies", placeholder="Describe your interests and hobbies here")
 
         # Dynamic field: Future Goals & Aspirations
-        future_goals = st.text_area("Future Goals & Aspirations", placeholder="Share your future aspirations here")
+        future_goals = st.text_area("Your Future Goals & Aspirations", placeholder="Share your future aspirations here")
 
     # Button to trigger the scenario
     if st.button("Generate Education Research"):
         if previous_level_label and not marks_obtained:
             st.error(f"Please enter {previous_level_label}.")
-        elif not interests_hobbies.strip():
-            st.error("Please describe your interests and hobbies.")
-        elif not future_goals.strip():
-            st.error("Please share your future aspirations.")
         elif istate == "Select a State":
             st.error("Please select a valid state!")
-        elif mode == "Select a Mode":
-            st.error("Please select a valid Mode!")
         else:
             # Data to send to the webhook
             payload = {

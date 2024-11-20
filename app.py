@@ -326,8 +326,6 @@ if selected == "AI Researchers":
             st.error("Please share your future aspirations.")
         elif istate == "Select a State":
             st.error("Please select a valid state!")
-        elif icity == "Select a City":
-            st.error("Please select a valid city!")
         elif mode == "Select a Mode":
             st.error("Please select a valid Mode!")
         else:

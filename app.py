@@ -4,8 +4,8 @@ import re
 from streamlit_option_menu import option_menu
 
 # Webhook URL from your Make scenario
-WEBHOOK_URL = "https://hook.eu2.make.com/6it1v4q73it8nwoncysmiw1qpf48pe4h"
-WEBHOOK_URL2 = "https://hook.eu2.make.com/0968tmkyjf9fm8xvmftmn8nt36c4yfkm"
+WEBHOOK_GEMINI = "https://hook.eu2.make.com/zgtpiyugxrxec5qw9wo5kmclwejuw2l7"
+WEBHOOK_GEMINI2 = "https://hook.eu2.make.com/e79m455b41ki8sgofv2rvuwdqgdpmo00"
 
 # Set up the page configuration for wide layout
 st.set_page_config(page_title="Automaatte: Transform Tomorrow, Today!!", page_icon="favicon.ico", layout="wide")
@@ -237,11 +237,11 @@ if selected == "AI Researchers":
             }
             try:
                 # Sending POST request to the webhook
-                response = requests.post(WEBHOOK_URL, json=payload)
+                response = requests.post(WEBHOOK_GEMINI, json=payload)
                 if response.status_code == 200:
                     try:
                         st.success("Research Done!!")
-                        st.markdown("## Researched Items:")
+                        
                         response_content = response.text
                         st.markdown("""
                                     <style>
@@ -337,11 +337,11 @@ if selected == "AI Researchers":
             }
             try:
                 # Sending POST request to the webhook
-                response = requests.post(WEBHOOK_URL2, json=payload)
+                response = requests.post(WEBHOOK_GEMINI2, json=payload)
                 if response.status_code == 200:
                     try:
                         st.success("Research Done!!")
-                        st.markdown("## Researched Items:")
+                        st.write("Your research is being processed. Please wait for a while.")
                         response_content = response.text
                         st.markdown("""
                                     <style>

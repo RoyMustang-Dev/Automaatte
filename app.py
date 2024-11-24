@@ -225,8 +225,6 @@ if selected == "AI Researchers":
             st.error("Please select a valid country!")
         elif state == "Select a State":
             st.error("Please select a valid state!")
-        elif city == "Select a City":
-            st.error("Please select a valid city!")
         else:
             # Data to send to the webhook
             payload = {

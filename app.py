@@ -4,7 +4,7 @@ import re
 from streamlit_option_menu import option_menu
 
 # Webhook URL from your Make scenario
-WEBHOOK_GEMINI = "https://hook.eu2.make.com/zgtpiyugxrxec5qw9wo5kmclwejuw2l7"
+WEBHOOK_GEMINI = "https://hook.eu2.make.com/y3gnzmgcnn9t38ze3ck5j6pxhayx6qwe"
 WEBHOOK_GEMINI2 = "https://hook.eu2.make.com/e79m455b41ki8sgofv2rvuwdqgdpmo00"
 
 # Set up the page configuration for wide layout
